@@ -13,12 +13,22 @@ A curated collection of Claude Code skills built for how I work.
 | Skill | What it does |
 |-------|-------------|
 | [fonts](#fonts) | Curated, opinionated list of fonts that aren't Inter. |
+| [scaffold](#scaffold) | Three-file context system for session continuity. |
 
 ---
 
 # fonts
 
 An opinionated Claude Code skill for picking and setting up typefaces. Surfaces a curated font list, asks about your project context with interactive prompts, and handles the full setup — imports, CSS custom properties, framework config.
+
+---
+
+# scaffold
+
+Scaffolds a three-file context system (`decisions.md`, `state.md`, `scratch.md`) into any project. Decisions are versioned in git; state and scratch are gitignored. Run `/scaffold` and it creates what's missing — no questions asked.
+
+---
+
 
 ## Install
 
