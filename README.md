@@ -14,6 +14,7 @@ A curated collection of Claude Code skills built for how I work.
 |-------|-------------|
 | [fonts](#fonts) | Curated, opinionated list of fonts that aren't Inter. |
 | [scaffold](#scaffold) | Three-file context system for session continuity. |
+| [handoff](#handoff) | End-of-session update to state, decisions, and scratch. |
 
 ## Install
 
@@ -21,6 +22,7 @@ Symlink any skill into your Claude Code skills directory:
 ```bash
 ln -s ~/skills/fonts/ ~/.claude/skills/fonts
 ln -s ~/skills/scaffold/ ~/.claude/skills/scaffold
+ln -s ~/skills/handoff/ ~/.claude/skills/handoff
 ```
 
 ---
@@ -88,5 +90,31 @@ Set up the context system for this project
 ```
 
 No questions asked — it checks what exists, creates what's missing, and reports back.
+
+---
+
+# handoff
+
+The complement to scaffold. Runs at the end of a session before `/clear` to update the three context files so the next session can start cold.
+
+- **state.md** — overwritten with where you ended, what's working, what's broken, landmines, and the first thing to do next session
+- **decisions.md** — appends significant decisions (if any were made) with rationale and rejected alternatives
+- **scratch.md** — wiped clean
+
+## Usage
+
+Invoke directly:
+
+```
+/handoff
+```
+
+Or trigger it naturally:
+
+```
+Let's wrap up
+```
+
+No questions asked — it reads the session context and git diff, writes the files, and shows you the result for a quick review before you `/clear`.
 
 ---
