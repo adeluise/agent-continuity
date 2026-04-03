@@ -16,11 +16,9 @@ A curated collection of Claude Code skills built for how I work.
 
 ---
 
-### fonts
+# fonts
 
 An opinionated Claude Code skill for picking and setting up typefaces. Surfaces a curated font list, asks about your project context with interactive prompts, and handles the full setup — imports, CSS custom properties, framework config.
-
----
 
 ## Install
 
@@ -58,3 +56,5 @@ For **SaaS app**, the skill will also recommend a monospace font for code blocks
 ## Customizing
 
 Edit `fonts.md` to add, remove, or reorder fonts. The skill reads this file every time it's invoked — no restart needed. Follow the existing table format and tag fonts with `heading`, `body`, `code`, or a combination.
+
+---
