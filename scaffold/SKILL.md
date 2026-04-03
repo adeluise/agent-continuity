@@ -1,11 +1,16 @@
 ---
 name: scaffold
 description: "Scaffolds the three-file context system (decisions.md, state.md, scratch.md) into a project. Use when setting up a new project's context layer, starting a context system, or when the user wants session handoff files alongside CLAUDE.md."
+allowed-tools: Read Write Edit Bash(grep *) Bash(cat *)
 ---
 
 # Scaffold
 
 Scaffold the three-file context system into the current project. These files sit alongside `CLAUDE.md` as the persistent context layer for working with Claude Code across sessions.
+
+## Existing files
+
+!`ls decisions.md state.md scratch.md .gitignore CLAUDE.md 2>/dev/null || echo "(none found)"`
 
 ## Files
 
@@ -77,8 +82,9 @@ Only create this if no `CLAUDE.md` exists:
 
 ## Execution order
 
-1. Read `.gitignore` (if it exists) and check for existing context files
-2. Create missing files using the templates above
-3. Append `state.md` and `scratch.md` to `.gitignore` if not already present
-4. Create fallback `CLAUDE.md` if needed
-5. Report what was created and what was skipped
+1. Use the existing files list above to determine which context files need to be created — skip any that already exist
+2. If `.gitignore` exists, check whether `state.md` and `scratch.md` are already listed
+3. Create missing files using the templates above
+4. Append `state.md` and `scratch.md` to `.gitignore` if not already present — create `.gitignore` if it doesn't exist
+5. Create fallback `CLAUDE.md` if needed
+6. Report what was created and what was skipped
