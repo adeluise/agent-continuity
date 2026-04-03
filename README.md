@@ -15,27 +15,19 @@ A curated collection of Claude Code skills built for how I work.
 | [fonts](#fonts) | Curated, opinionated list of fonts that aren't Inter. |
 | [scaffold](#scaffold) | Three-file context system for session continuity. |
 
----
-
-# fonts
-
-An opinionated Claude Code skill for picking and setting up typefaces. Surfaces a curated font list, asks about your project context with interactive prompts, and handles the full setup — imports, CSS custom properties, framework config.
-
----
-
-# scaffold
-
-Scaffolds a three-file context system (`decisions.md`, `state.md`, `scratch.md`) into any project. Decisions are versioned in git; state and scratch are gitignored. Run `/scaffold` and it creates what's missing — no questions asked.
-
----
-
-
 ## Install
 
 Symlink any skill into your Claude Code skills directory:
 ```bash
 ln -s ~/skills/fonts/ ~/.claude/skills/fonts
+ln -s ~/skills/scaffold/ ~/.claude/skills/scaffold
 ```
+
+---
+
+# fonts
+
+An opinionated Claude Code skill for picking and setting up typefaces. Surfaces a curated font list, asks about your project context with interactive prompts, and handles the full setup — imports, CSS custom properties, framework config.
 
 ## Usage
 
@@ -66,5 +58,35 @@ For **SaaS app**, the skill will also recommend a monospace font for code blocks
 ## Customizing
 
 Edit `fonts.md` to add, remove, or reorder fonts. The skill reads this file every time it's invoked — no restart needed. Follow the existing table format and tag fonts with `heading`, `body`, `code`, or a combination.
+
+---
+
+# scaffold
+
+Scaffolds a three-file, the persistent context layer for working with Claude Code across sessions.
+
+| File | Purpose |
+|------|---------|
+| `decisions.md` | Append-only log of major decisions: what, when, why, and what was rejected |
+| `state.md` | Context bridge between sessions — replace before ending so the next session can pick up cold |
+| `scratch.md` | Ephemeral working notes, ideas, open questions — wiped between sessions |
+
+These sit alongside `CLAUDE.md` (which should already exist) in the project root and creates a minimal `CLAUDE.md` if one doesn't exist.
+
+## Usage
+
+Invoke directly:
+
+```
+/scaffold
+```
+
+Or trigger it naturally:
+
+```
+Set up the context system for this project
+```
+
+No questions asked — it checks what exists, creates what's missing, and reports back.
 
 ---
