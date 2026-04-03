@@ -25,7 +25,7 @@ Scaffold the three-file context system into the current project. These files sit
 0. **This is a deterministic scaffold — no questions needed.** When invoked, immediately check what exists and create what's missing. Do not ask for project type, stack, or preferences.
 1. **Never overwrite existing files.** If `decisions.md`, `state.md`, or `scratch.md` already exists, skip it and tell the user.
 2. **Always update `.gitignore`.** Append `state.md` and `scratch.md` if they're not already listed. Create `.gitignore` if it doesn't exist.
-3. **Create `CLAUDE.md` only as a fallback.** If no `CLAUDE.md` exists in the project root, create a minimal one with just a project title placeholder. This is not the main purpose of the skill — don't over-engineer it.
+3. **Always update `CLAUDE.md` with context-system instructions.** If no `CLAUDE.md` exists, create a minimal one with a project title placeholder. Then append the context-system block below — but only if the sentinel `<!-- context-system -->` is not already present.
 4. **Do not scaffold anything else.** No tech stack, linting, CI, or project structure. This is purely the context layer.
 
 ## File contents
@@ -80,6 +80,22 @@ Only create this if no `CLAUDE.md` exists:
 # [Project Name]
 ```
 
+### Context-system block for `CLAUDE.md`
+
+Append this to `CLAUDE.md` if the sentinel `<!-- context-system -->` is not already present:
+
+```markdown
+<!-- context-system -->
+## Session startup
+
+At the start of every session, read `state.md` if it exists. Orient before acting — understand where the last session left off, what's broken, and what the next step should be before writing any code.
+
+Supporting files:
+- `state.md` — context bridge between sessions (gitignored)
+- `decisions.md` — append-only decision log (tracked)
+- `scratch.md` — ephemeral working notes, wiped between sessions (gitignored)
+```
+
 ## Execution order
 
 1. Use the existing files list above to determine which context files need to be created — skip any that already exist
@@ -87,4 +103,5 @@ Only create this if no `CLAUDE.md` exists:
 3. Create missing files using the templates above
 4. Append `state.md` and `scratch.md` to `.gitignore` if not already present — create `.gitignore` if it doesn't exist
 5. Create fallback `CLAUDE.md` if needed
-6. Report what was created and what was skipped
+6. Append context-system block to `CLAUDE.md` if sentinel `<!-- context-system -->` not found
+7. Report what was created and what was skipped
