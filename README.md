@@ -4,27 +4,25 @@ A curated collection of Claude Code skills built for how I work.
 
 ## Philosophy
 
-- **Durability over cleverness.** When frontier models get 30% better, does this still make sense? If the value is just a system prompt, it's not a useful skill.
-- **Skills that learn.** The best skills aren't shortcuts, but should compound over time.
-- **Curated, not collected.** Quality and purpose over quantity.
+Skills are curated. A skill earns its place by being useful across multiple projects over time. Don't create a skill for a one-off task or something a prompt can handle. Durability over cleverness.
 
 ## What's here
 
 | Skill | What it does |
 |-------|-------------|
 | [fonts](#fonts) | Curated, opinionated list of fonts that aren't Inter. |
-| [scaffold](#scaffold) | Three-file context system for session continuity. |
-| [preserve](#preserve) | End-of-session update to state, decisions, and scratch. |
 | [orient](#orient) | Start-of-session orientation from context files and git. |
+| [preserve](#preserve) | End-of-session update to state, decisions, and scratch. |
+| [scaffold](#scaffold) | Three-file context system for session continuity. |
 
 ## Install
 
 Symlink any skill into your Claude Code skills directory:
 ```bash
 ln -s ~/skills/fonts/ ~/.claude/skills/fonts
-ln -s ~/skills/scaffold/ ~/.claude/skills/scaffold
-ln -s ~/skills/preserve/ ~/.claude/skills/preserve
 ln -s ~/skills/orient/ ~/.claude/skills/orient
+ln -s ~/skills/preserve/ ~/.claude/skills/preserve
+ln -s ~/skills/scaffold/ ~/.claude/skills/scaffold
 ```
 
 ---
@@ -46,18 +44,6 @@ Or trigger it naturally in conversation:
 ```
 I need a font pairing for a marketing landing page
 ```
-
-You'll get prompts to select:
-
-1. **Project type** — marketing site, SaaS app, editorial/blog, portfolio
-2. **Vibe** — clean/minimal, bold/expressive, editorial/serious, friendly/warm
-3. **Role** — full pairing, headings only, body only
-
-Pick from the chips or choose "Other" to type your own answer.
-
-The skill filters down to 2–4 font recommendations presented as selectable options. Once you pick, it detects your stack and sets everything up automatically — no confirmation step.
-
-For **SaaS app**, the skill will also recommend a monospace font for code blocks, data tables, and technical UI after you've chosen your main pairing.
 
 ## Customizing
 
@@ -91,7 +77,7 @@ Or trigger it naturally:
 Set up the context system for this project
 ```
 
-No questions asked — it checks what exists, creates what's missing, and reports back.
+It checks what exists and sets up what's missing.
 
 ---
 
@@ -117,13 +103,13 @@ Or trigger it naturally:
 Let's wrap up
 ```
 
-No questions asked — it reads the session context and git diff, writes the files, and shows you the result for a quick review before you `/clear`.
+It reads the session context and git diff, writes the files, and shows you the result for a quick review before you `/clear`.
 
 ---
 
 # orient
 
-The complement to preserve. Reads state.md, decisions.md, scratch.md, and recent git activity, then presents a structured orientation summary. Doesn't start any work — shows you where things stand and waits for direction.
+The complement to preserve. Reads state.md, decisions.md, and recent git activity, then presents a concise orientation summary. Shows you where things stand and waits for direction.
 
 ## Usage
 
@@ -139,6 +125,6 @@ Or trigger it naturally:
 Let's pick this back up
 ```
 
-No questions asked — it reads the context files and git history, synthesizes a summary with the next step front and center, and waits for you to say what to work on.
+It reads the context files and git history, synthesizes a summary with the next step front and center, and waits for you to say what to work on.
 
 ---
