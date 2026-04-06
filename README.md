@@ -15,6 +15,7 @@ A curated collection of Claude Code skills built for how I work.
 | [fonts](#fonts) | Curated, opinionated list of fonts that aren't Inter. |
 | [scaffold](#scaffold) | Three-file context system for session continuity. |
 | [handoff](#handoff) | End-of-session update to state, decisions, and scratch. |
+| [orient](#orient) | Start-of-session orientation from context files and git. |
 
 ## Install
 
@@ -23,6 +24,7 @@ Symlink any skill into your Claude Code skills directory:
 ln -s ~/skills/fonts/ ~/.claude/skills/fonts
 ln -s ~/skills/scaffold/ ~/.claude/skills/scaffold
 ln -s ~/skills/handoff/ ~/.claude/skills/handoff
+ln -s ~/skills/orient/ ~/.claude/skills/orient
 ```
 
 ---
@@ -116,5 +118,27 @@ Let's wrap up
 ```
 
 No questions asked — it reads the session context and git diff, writes the files, and shows you the result for a quick review before you `/clear`.
+
+---
+
+# orient
+
+The complement to handoff. Reads state.md, decisions.md, scratch.md, and recent git activity, then presents a structured orientation summary. Doesn't start any work — shows you where things stand and waits for direction.
+
+## Usage
+
+Invoke directly:
+
+```
+/orient
+```
+
+Or trigger it naturally:
+
+```
+Let's pick this back up
+```
+
+No questions asked — it reads the context files and git history, synthesizes a summary with the next step front and center, and waits for you to say what to work on.
 
 ---
