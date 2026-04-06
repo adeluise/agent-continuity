@@ -8,19 +8,25 @@ allowed-tools: Read Edit Write Bash(git *)
 
 Preserve the current session's context into the three-file system so the next session can start cold. Run this at the end of a session, before `/clear`.
 
+## Scaffold check
+
+!`[ -f state.md ] && [ -f decisions.md ] && [ -f scratch.md ] && echo "SCAFFOLD_OK" || echo "SCAFFOLD_MISSING: run /scaffold first"`
+
+**If the output above says SCAFFOLD_MISSING, stop immediately and tell the user to run `/scaffold`. Do not continue.**
+
 ## Session changes
 
 Files changed this session:
-!`git diff --stat 2>/dev/null; git diff --cached --stat 2>/dev/null`
+!`[ -f state.md ] && { git diff --stat 2>/dev/null; git diff --cached --stat 2>/dev/null; } || true`
 
 Changed file list:
-!`git diff --name-only 2>/dev/null; git diff --cached --name-only 2>/dev/null`
+!`[ -f state.md ] && { git diff --name-only 2>/dev/null; git diff --cached --name-only 2>/dev/null; } || true`
 
 ## Rules
 
 0. **Don't ask questions — just do it.** Derive everything from the session's conversation, the injected git diff above, and the current state of the three files. Present the result for review when done.
 
-1. **Require the scaffold files.** If `state.md`, `decisions.md`, or `scratch.md` don't all exist in the project root, stop and tell the user to run `/scaffold` first. Do not create them.
+1. **Require the scaffold files.** If the scaffold check above says `SCAFFOLD_MISSING`, stop and tell the user to run `/scaffold` first. Do not create them.
 
 2. **Read before writing.** Before touching anything, read the current `state.md`, `decisions.md`, and `scratch.md` so you know what's already there.
 
