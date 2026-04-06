@@ -1,12 +1,12 @@
 ---
-name: handoff
-description: "End-of-session handoff that updates state.md, appends decisions to decisions.md, and wipes scratch.md. Use when wrapping up a session, before /clear, or when the user says they're done for now."
+name: preserve
+description: "End-of-session context preservation that updates state.md, appends decisions to decisions.md, and wipes scratch.md. Use when wrapping up a session, before /clear, or when the user says they're done for now."
 allowed-tools: Read Edit Write Bash(git *)
 ---
 
-# Handoff
+# Preserve
 
-Capture the current session's context into the three-file system so the next session can start cold. Run this at the end of a session, before `/clear`.
+Preserve the current session's context into the three-file system so the next session can start cold. Run this at the end of a session, before `/clear`.
 
 ## Session changes
 

@@ -14,7 +14,7 @@ A curated collection of Claude Code skills built for how I work.
 |-------|-------------|
 | [fonts](#fonts) | Curated, opinionated list of fonts that aren't Inter. |
 | [scaffold](#scaffold) | Three-file context system for session continuity. |
-| [handoff](#handoff) | End-of-session update to state, decisions, and scratch. |
+| [preserve](#preserve) | End-of-session update to state, decisions, and scratch. |
 | [orient](#orient) | Start-of-session orientation from context files and git. |
 
 ## Install
@@ -23,7 +23,7 @@ Symlink any skill into your Claude Code skills directory:
 ```bash
 ln -s ~/skills/fonts/ ~/.claude/skills/fonts
 ln -s ~/skills/scaffold/ ~/.claude/skills/scaffold
-ln -s ~/skills/handoff/ ~/.claude/skills/handoff
+ln -s ~/skills/preserve/ ~/.claude/skills/preserve
 ln -s ~/skills/orient/ ~/.claude/skills/orient
 ```
 
@@ -95,7 +95,7 @@ No questions asked — it checks what exists, creates what's missing, and report
 
 ---
 
-# handoff
+# preserve
 
 The complement to scaffold. Runs at the end of a session before `/clear` to update the three context files so the next session can start cold.
 
@@ -108,7 +108,7 @@ The complement to scaffold. Runs at the end of a session before `/clear` to upda
 Invoke directly:
 
 ```
-/handoff
+/preserve
 ```
 
 Or trigger it naturally:
@@ -123,7 +123,7 @@ No questions asked — it reads the session context and git diff, writes the fil
 
 # orient
 
-The complement to handoff. Reads state.md, decisions.md, scratch.md, and recent git activity, then presents a structured orientation summary. Doesn't start any work — shows you where things stand and waits for direction.
+The complement to preserve. Reads state.md, decisions.md, scratch.md, and recent git activity, then presents a structured orientation summary. Doesn't start any work — shows you where things stand and waits for direction.
 
 ## Usage
 

@@ -30,7 +30,7 @@ Orient before acting. Read the project's context files and recent git activity, 
 
 6. **Flag emptiness.** If `state.md` sections are all "None" (the scaffold default), say so plainly: the context files exist but haven't been filled in yet. There's nothing to orient from — ask the user what they'd like to work on.
 
-7. **Surface scratch.md only if non-empty.** Handoff wipes scratch.md clean. If it contains content, that's unusual — include it in the summary under a separate note. Otherwise omit it.
+7. **Surface scratch.md only if non-empty.** Preserve wipes scratch.md clean. If it contains content, that's unusual — include it in the summary under a separate note. Otherwise omit it.
 
 ## Output format
 

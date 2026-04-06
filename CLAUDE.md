@@ -4,7 +4,7 @@
 Skills are curated. A skill earns its place by being useful across multiple projects over time. Don't create a skill for a one-off task or something a prompt can handle. Durability over cleverness.
 
 ## Structure
-Each skill is a top-level directory (e.g., `fonts/`, `handoff/`). No `skills/` parent folder.
+Each skill is a top-level directory (e.g., `fonts/`, `preserve/`). No `skills/` parent folder.
 Every skill has a `SKILL.md` with frontmatter metadata and implementation rules.
 Additional data files live alongside SKILL.md as needed.
 
