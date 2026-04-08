@@ -15,3 +15,6 @@ Install via symlink: `ln -s ~/skills/SKILL/ ~/.claude/skills/SKILL`
 ## README
 Concise and direct. One-liner table summarizing all skills, then a short paragraph per skill.
 No feature lists, badges, or filler. When editing, make minimal targeted changes.
+
+## Reference
+Anthropic skill docs: https://code.claude.com/docs/en/skills.md
