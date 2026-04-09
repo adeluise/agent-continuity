@@ -17,10 +17,12 @@ Preserve the current session's context into the three-file system so the next se
 ## Session changes
 
 Files changed this session:
-!`[ -f state.md ] && { git diff --stat 2>/dev/null; git diff --cached --stat 2>/dev/null; } || true`
+!`git diff --stat`
+!`git diff --cached --stat`
 
 Changed file list:
-!`[ -f state.md ] && { git diff --name-only 2>/dev/null; git diff --cached --name-only 2>/dev/null; } || true`
+!`git diff --name-only`
+!`git diff --cached --name-only`
 
 ## Rules
 
