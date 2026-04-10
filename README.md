@@ -1,59 +1,35 @@
-# Skills
+# agent-continuity
 
-A curated collection of Claude Code skills built for how I work.
+Claude Code skills for surviving `/clear`. A three-file context layer and three skills that manage its lifecycle, so each session can start cold and pick up exactly where the last one left off.
 
-## Philosophy
+## The problem
 
-Skills are curated. A skill earns its place by being useful across multiple projects over time. Don't create a skill for a one-off task or something a prompt can handle. Durability over cleverness.
+Claude Code sessions are ephemeral. `/clear` wipes context. Every new session starts without memory of the previous one. Continuity across sessions requires an explicit handoff — something that captures state before it's wiped and restores it at the start of the next session.
 
-## What's here
+## The system
 
-| Skill | What it does |
-|-------|-------------|
-| [fonts](#fonts) | Curated, opinionated list of fonts that aren't Inter. |
-| [orient](#orient) | Start-of-session orientation from context files and git. |
-| [preserve](#preserve) | End-of-session update to state, decisions, and scratch. |
-| [scaffold](#scaffold) | Three-file context system for session continuity. |
+Three files maintained by three skills, one per stage of the session lifecycle:
+
+| Stage | Skill | What it does |
+|-------|-------|--------------|
+| Setup (once per project) | [scaffold](#scaffold) | Creates `state.md`, `decisions.md`, and `scratch.md` in the project root |
+| Start of each session | [orient](#orient) | Reads the context files and recent git activity, summarizes where things stand |
+| End of each session | [preserve](#preserve) | Snapshots the session into `state.md`, appends to `decisions.md`, wipes `scratch.md` |
 
 ## Install
 
-Symlink any skill into your Claude Code skills directory:
+Symlink each skill into your Claude Code skills directory:
 ```bash
-ln -s ~/skills/fonts/ ~/.claude/skills/fonts
+ln -s ~/skills/scaffold/ ~/.claude/skills/scaffold
 ln -s ~/skills/orient/ ~/.claude/skills/orient
 ln -s ~/skills/preserve/ ~/.claude/skills/preserve
-ln -s ~/skills/scaffold/ ~/.claude/skills/scaffold
 ```
-
----
-
-# fonts
-
-An opinionated Claude Code skill for picking and setting up typefaces. Surfaces a curated font list, asks about your project context with interactive prompts, and handles the full setup — imports, CSS custom properties, framework config.
-
-## Usage
-
-Invoke the skill directly:
-
-```
-/fonts
-```
-
-Or trigger it naturally in conversation:
-
-```
-I need a font pairing for a marketing landing page
-```
-
-## Customizing
-
-Edit `fonts.md` to add, remove, or reorder fonts. The skill reads this file every time it's invoked — no restart needed. Follow the existing table format and tag fonts with `heading`, `body`, `code`, or a combination.
 
 ---
 
 # scaffold
 
-Scaffolds a three-file, the persistent context layer for working with Claude Code across sessions.
+Scaffolds the three-file persistent context layer for working with Claude Code across sessions.
 
 | File | Purpose |
 |------|---------|
@@ -83,9 +59,31 @@ It checks what exists and sets up what's missing.
 
 ---
 
+# orient
+
+The complement to preserve. Reads `state.md`, `decisions.md`, and recent git activity, then presents a concise orientation summary. Shows you where things stand and waits for direction.
+
+## Usage
+
+Invoke directly:
+
+```
+/orient
+```
+
+Or trigger it naturally:
+
+```
+Let's pick this back up
+```
+
+It reads the context files and git history, synthesizes a summary with the next step front and center, and waits for you to say what to work on.
+
+---
+
 # preserve
 
-The complement to scaffold. Runs at the end of a session before `/clear` to update the three context files so the next session can start cold.
+The complement to orient. Runs at the end of a session before `/clear` to update the three context files so the next session can start cold.
 
 - **state.md** — overwritten with where you ended, what's working, what's broken, landmines, and the first thing to do next session
 - **decisions.md** — appends significant decisions (if any were made) with rationale and rejected alternatives
@@ -106,27 +104,5 @@ Let's wrap up
 ```
 
 It reads the session context and git diff, writes the files, and shows you the result for a quick review before you `/clear`.
-
----
-
-# orient
-
-The complement to preserve. Reads state.md, decisions.md, and recent git activity, then presents a concise orientation summary. Shows you where things stand and waits for direction.
-
-## Usage
-
-Invoke directly:
-
-```
-/orient
-```
-
-Or trigger it naturally:
-
-```
-Let's pick this back up
-```
-
-It reads the context files and git history, synthesizes a summary with the next step front and center, and waits for you to say what to work on.
 
 ---
