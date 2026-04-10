@@ -1,20 +1,14 @@
 # agent-continuity
 
-Claude Code skills for surviving `/clear`. A three-file context layer and three skills that manage its lifecycle, so each session can start cold and pick up exactly where the last one left off.
+Claude Code forgets between sessions: major decisions made, the reasoning you'd made, what you ruled out, where you left off thinking. `/clear` wipes all of it, and the next session starts cold.
 
-## The problem
+Three Claude Code skills close that gap. They maintain three files in your project — `state.md`, `decisions.md`, `scratch.md` — that capture where you ended, what was decided, and what's next.
 
-Claude Code sessions are ephemeral. `/clear` wipes context. Every new session starts without memory of the previous one. Continuity across sessions requires an explicit handoff — something that captures state before it's wiped and restores it at the start of the next session.
+## Use it
 
-## The system
-
-Three files maintained by three skills, one per stage of the session lifecycle:
-
-| Stage | Skill | What it does |
-|-------|-------|--------------|
-| Setup (once per project) | [scaffold](#scaffold) | Creates `state.md`, `decisions.md`, and `scratch.md` in the project root |
-| Start of each session | [orient](#orient) | Reads the context files and recent git activity, summarizes where things stand |
-| End of each session | [preserve](#preserve) | Snapshots the session into `state.md`, appends to `decisions.md`, wipes `scratch.md` |
+- `/scaffold` — once per project. Creates the three files.
+- `/orient` — at the start of a session. Reads the files and recent git, summarizes where you are.
+- `/preserve` — at the end of a session, before `/clear`. Captures the session so the next one can pick up cold.
 
 ## Install
 
@@ -37,9 +31,9 @@ Scaffolds the three-file persistent context layer for working with Claude Code a
 | `state.md` | Context bridge between sessions — replace before ending so the next session can pick up cold |
 | `scratch.md` | Ephemeral working notes, ideas, open questions — wiped between sessions |
 
-These sit alongside `CLAUDE.md` (which should already exist) in the project root and creates a minimal `CLAUDE.md` if one doesn't exist.
+These sit alongside `CLAUDE.md` in the project root. `/scaffold` creates a minimal `CLAUDE.md` if one doesn't exist.
 
-state.md is tracked so its history is versioned. On teams, expect merge conflicts — preserve does a full replacement, and a merge strategy will come when there's a real team case.
+`state.md` is tracked so its history is versioned. Currently optimized for single user, expect merge conflicts with multiple contributors since `/preserve` does a full replacement. Will find a solution when there's a need.
 
 ## Usage
 
