@@ -17,14 +17,14 @@ Scaffold the three-file context system into the current project. These files sit
 | File | Purpose | Git |
 |------|---------|-----|
 | `decisions.md` | Append-only log of major decisions | Tracked |
-| `state.md` | Context bridge between sessions | Ignored |
+| `state.md` | Context bridge between sessions | Tracked |
 | `scratch.md` | Ephemeral working notes for the current session | Ignored |
 
 ## Rules
 
 0. **This is a deterministic scaffold — no questions needed.** When invoked, immediately check what exists and create what's missing. Do not ask for project type, stack, or preferences.
 1. **Never overwrite existing files.** If `decisions.md`, `state.md`, or `scratch.md` already exists, skip it and tell the user.
-2. **Always update `.gitignore`.** Append `state.md` and `scratch.md` if they're not already listed. Create `.gitignore` if it doesn't exist.
+2. **Always update `.gitignore`.** Append `scratch.md` if it's not already listed. Create `.gitignore` if it doesn't exist.
 3. **Always update `CLAUDE.md` with context-system instructions.** If no `CLAUDE.md` exists, create a minimal one with a project title placeholder. Then append the context-system block below — but only if the sentinel `<!-- context-system -->` is not already present.
 4. **Do not scaffold anything else.** No tech stack, linting, CI, or project structure. This is purely the context layer.
 
@@ -41,7 +41,7 @@ Scaffold the three-file context system into the current project. These files sit
 ### `state.md`
 
 ```markdown
-<!-- Context bridge between sessions. Replace the contents of this file before ending a session so the next one can pick up without re-reading the entire codebase. Gitignored — not versioned. -->
+<!-- Context bridge between sessions. Replace the contents of this file before ending a session so the next one can pick up without re-reading the entire codebase. -->
 
 # State
 
@@ -91,7 +91,7 @@ Append this to `CLAUDE.md` if the sentinel `<!-- context-system -->` is not alre
 At the start of every session, read `state.md` if it exists. Orient before acting — understand where the last session left off, what's broken, and what the next step should be before writing any code.
 
 Supporting files:
-- `state.md` — context bridge between sessions (gitignored)
+- `state.md` — context bridge between sessions (tracked)
 - `decisions.md` — append-only decision log (tracked)
 - `scratch.md` — ephemeral working notes, wiped between sessions (gitignored)
 ```
@@ -99,9 +99,9 @@ Supporting files:
 ## Execution order
 
 1. Use the existing files list above to determine which context files need to be created — skip any that already exist
-2. If `.gitignore` exists, check whether `state.md` and `scratch.md` are already listed
+2. If `.gitignore` exists, check whether `scratch.md` is already listed
 3. Create missing files using the templates above
-4. Append `state.md` and `scratch.md` to `.gitignore` if not already present — create `.gitignore` if it doesn't exist
+4. Append `scratch.md` to `.gitignore` if not already present — create `.gitignore` if it doesn't exist
 5. Create fallback `CLAUDE.md` if needed
 6. Append context-system block to `CLAUDE.md` if sentinel `<!-- context-system -->` not found
 7. Report what was created and what was skipped

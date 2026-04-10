@@ -55,7 +55,7 @@ Changed file list:
 ### `state.md` — full replacement
 
 ```markdown
-<!-- Context bridge between sessions. Replace the contents of this file before ending a session so the next one can pick up without re-reading the entire codebase. Gitignored — not versioned. -->
+<!-- Context bridge between sessions. Replace the contents of this file before ending a session so the next one can pick up without re-reading the entire codebase. -->
 
 # State
 

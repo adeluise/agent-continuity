@@ -63,6 +63,8 @@ Scaffolds a three-file, the persistent context layer for working with Claude Cod
 
 These sit alongside `CLAUDE.md` (which should already exist) in the project root and creates a minimal `CLAUDE.md` if one doesn't exist.
 
+state.md is tracked so its history is versioned. On teams, expect merge conflicts — preserve does a full replacement, and a merge strategy will come when there's a real team case.
+
 ## Usage
 
 Invoke directly:
