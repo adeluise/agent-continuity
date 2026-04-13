@@ -54,9 +54,6 @@ Present the orientation as a single structured block:
 ### Landmines
 [Contents of "Landmines" from state.md — omit if None]
 
-### Recent decisions
-[Last 3 entries from decisions.md, or "No decisions logged yet" if empty]
-
 ### Git since last session
 [Summary of injected git log and git status — uncommitted changes, recent commits. Omit if clean and nothing notable.]
 ```
