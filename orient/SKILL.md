@@ -1,7 +1,7 @@
 ---
 name: orient
 description: "Start-of-session orientation that reads context files and recent git activity, then presents a structured summary. Use when beginning a session, after /clear, or when picking up a project cold."
-allowed-tools: Read Bash(git *)
+allowed-tools: Read, Bash(git:*)
 ---
 
 # Orient
@@ -10,15 +10,23 @@ Orient before acting. Read the project's context files and recent git activity, 
 
 ## Recent git activity
 
+Recent commits:
+
 !`git log --oneline -5 2>/dev/null || echo "(no commits found)"`
 
-!`git status --short 2>/dev/null || echo "(not a git repo)"`
+Commits since `state.md` was last committed (the last preserved session boundary):
+
+!`anchor=$(git log -1 --format=%H -- state.md 2>/dev/null); if [ -z "$anchor" ]; then echo "(state.md has never been committed — staleness unknown)"; else git log --oneline "$anchor..HEAD" 2>/dev/null | grep . || echo "(none — state.md is current with git history)"; fi`
+
+Working tree status:
+
+!`git status --short 2>/dev/null | grep . || echo "(clean, or not a git repo)"`
 
 ## Rules
 
 0. **This is read-only — do not start working.** The entire purpose of this skill is to orient. Read files, synthesize, present, and stop. Do not create, edit, or fix anything. Do not run tests. Do not write code. Wait for the user to direct next steps.
 
-1. **Require the scaffold files.** If `state.md`, `decisions.md`, or `scratch.md` don't all exist in the project root, stop and tell the user to run `/scaffold` first. Do not partially orient.
+1. **Require the tracked scaffold files.** If `state.md` or `decisions.md` doesn't exist in the project root, stop and tell the user to run `/scaffold` first. Do not partially orient. A missing `scratch.md` is fine — it's gitignored, so it won't exist after a fresh clone. Treat it as empty and continue.
 
 2. **Read everything before speaking.** Read `state.md`, `decisions.md`, `scratch.md`, and `CLAUDE.md` (if it exists) in full before producing any output. Combine them with the injected git context above to build the complete picture.
 
@@ -26,7 +34,7 @@ Orient before acting. Read the project's context files and recent git activity, 
 
 4. **Be concrete, not narrative.** Use file paths, function names, error messages, and specific next steps. No "let's pick up where we left off" or "good progress was made." If `state.md` contains vague content, surface it as-is — don't embellish.
 
-5. **Flag staleness.** If the injected git log shows commits that postdate the context in `state.md` (e.g., commits from a different session or manual work), call this out explicitly. The context files may be outdated.
+5. **Flag staleness.** The injected "commits since `state.md` was last committed" output is the staleness signal. If it lists commits, `state.md` predates them — say so explicitly and list those commits; the context files may be outdated. If it says `state.md` has never been committed, note that staleness can't be determined from git.
 
 6. **Flag emptiness.** If `state.md` sections are all "None" (the scaffold default), say so plainly: the context files exist but haven't been filled in yet. There's nothing to orient from — ask the user what they'd like to work on.
 
@@ -55,7 +63,7 @@ Present the orientation as a single structured block:
 [Contents of "Landmines" from state.md — omit if None]
 
 ### Git since last session
-[Summary of injected git log and git status — uncommitted changes, recent commits. Omit if clean and nothing notable.]
+[Summary of injected git context — commits since state.md was last committed, uncommitted changes. Omit if clean and nothing notable.]
 ```
 
 After the block, print one line:
@@ -66,12 +74,12 @@ Do not say anything else after that line.
 
 ## Execution order
 
-1. Check that `state.md`, `decisions.md`, and `scratch.md` all exist in the project root — if any are missing, tell the user to run `/scaffold` and stop
+1. Check that `state.md` and `decisions.md` exist in the project root — if either is missing, tell the user to run `/scaffold` and stop
 2. Read `state.md` in full
 3. Read `decisions.md` in full
-4. Read `scratch.md` in full
+4. Read `scratch.md` in full (skip without error if it doesn't exist — it's gitignored)
 5. Read `CLAUDE.md` if it exists (skip without error if it doesn't)
-6. Combine file contents with the injected git log and git status above
-7. Check for staleness: compare git log against state.md content
+6. Combine file contents with the injected git context above
+7. Check for staleness: use the injected "commits since state.md was last committed" output
 8. Produce the orientation block in the output format above
 9. Stop. Wait for user direction.

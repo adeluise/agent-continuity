@@ -1,7 +1,7 @@
 ---
 name: scaffold
 description: "Scaffolds the three-file context system (decisions.md, state.md, scratch.md) into a project. Use when setting up a new project's context layer, starting a context system, or when the user wants session context files alongside CLAUDE.md."
-allowed-tools: Read Write Edit Bash(grep *) Bash(cat *)
+allowed-tools: Read, Write, Edit
 ---
 
 # Scaffold

@@ -12,11 +12,11 @@ Three Claude Code skills close that gap. They maintain three files in your proje
 
 ## Install
 
-Symlink each skill into your Claude Code skills directory:
+Clone the repo, then symlink each skill into your Claude Code skills directory from the repo root:
 ```bash
-ln -s ~/skills/scaffold/ ~/.claude/skills/scaffold
-ln -s ~/skills/orient/ ~/.claude/skills/orient
-ln -s ~/skills/preserve/ ~/.claude/skills/preserve
+ln -s "$(pwd)/scaffold" ~/.claude/skills/scaffold
+ln -s "$(pwd)/orient" ~/.claude/skills/orient
+ln -s "$(pwd)/preserve" ~/.claude/skills/preserve
 ```
 
 ---
