@@ -10,7 +10,7 @@ Scaffold the three-file context system into the current project. These files sit
 
 ## Existing files
 
-!`ls decisions.md state.md scratch.md .gitignore CLAUDE.md 2>/dev/null || echo "(none found)"`
+!`ls decisions.md state.md scratch.md .gitignore CLAUDE.md .claude/settings.json 2>/dev/null || echo "(none found)"`
 
 ## Files
 
@@ -26,7 +26,8 @@ Scaffold the three-file context system into the current project. These files sit
 1. **Never overwrite existing files.** If `decisions.md`, `state.md`, or `scratch.md` already exists, skip it and tell the user.
 2. **Always update `.gitignore`.** Append `scratch.md` if it's not already listed. Create `.gitignore` if it doesn't exist.
 3. **Always update `CLAUDE.md` with context-system instructions.** If no `CLAUDE.md` exists, create a minimal one with a project title placeholder. Then append the context-system block below — but only if the sentinel `<!-- context-system -->` is not already present.
-4. **Do not scaffold anything else.** No tech stack, linting, CI, or project structure. This is purely the context layer.
+4. **Install the session-start hook in `.claude/settings.json`.** The hook injects `state.md` into context when a session starts fresh or after `/clear`. Create `.claude/settings.json` with the JSON below if it doesn't exist. If it exists, merge the `SessionStart` entry into the existing JSON without disturbing other settings. If a `SessionStart` hook whose command mentions `state.md` is already present, skip it and say so. Do not ask — install and report.
+5. **Do not scaffold anything else.** No tech stack, linting, CI, or project structure. This is purely the context layer.
 
 ## File contents
 
@@ -86,14 +87,36 @@ Append this to `CLAUDE.md` if the sentinel `<!-- context-system -->` is not alre
 
 ```markdown
 <!-- context-system -->
-## Session startup
+## Context system
 
-At the start of every session, read `state.md` if it exists. Orient before acting — understand where the last session left off, what's broken, and what the next step should be before writing any code.
+`state.md` is injected automatically at session start by a SessionStart hook — orient from it before acting. Run `/orient` for a full structured orientation with staleness checks.
 
-Supporting files:
+Files:
 - `state.md` — context bridge between sessions (tracked)
 - `decisions.md` — append-only decision log (tracked)
 - `scratch.md` — ephemeral working notes, wiped between sessions (gitignored)
+```
+
+### Session-start hook for `.claude/settings.json`
+
+Merge this into `.claude/settings.json` (create the file and the `.claude` directory if needed). If the file already has a `hooks` or `SessionStart` key, merge this entry in alongside what's there:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f state.md ] && { echo 'state.md from the last preserved session:'; cat state.md; } || true"
+          }
+        ]
+      }
+    ]
+  }
+}
 ```
 
 ## Execution order
@@ -104,4 +127,5 @@ Supporting files:
 4. Append `scratch.md` to `.gitignore` if not already present — create `.gitignore` if it doesn't exist
 5. Create fallback `CLAUDE.md` if needed
 6. Append context-system block to `CLAUDE.md` if sentinel `<!-- context-system -->` not found
-7. Report what was created and what was skipped
+7. Install the session-start hook into `.claude/settings.json` — create or merge as needed, skip if a state.md hook is already present
+8. Report what was created, what was skipped, and that the hook was installed

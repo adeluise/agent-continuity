@@ -31,7 +31,7 @@ Scaffolds the three-file persistent context layer for working with Claude Code a
 | `state.md` | Context bridge between sessions — replace before ending so the next session can pick up cold |
 | `scratch.md` | Ephemeral working notes, ideas, open questions — wiped between sessions |
 
-These sit alongside `CLAUDE.md` in the project root. `/scaffold` creates a minimal `CLAUDE.md` if one doesn't exist.
+These sit alongside `CLAUDE.md` in the project root. `/scaffold` creates a minimal `CLAUDE.md` if one doesn't exist. It also installs a SessionStart hook into `.claude/settings.json` that injects `state.md` into context on session start and after `/clear`, so every session begins oriented without invoking anything. `/orient` remains the deliberate version — synthesis plus a staleness check against git.
 
 `state.md` is tracked so its history is versioned. Currently optimized for single user, expect merge conflicts with multiple contributors since `/preserve` does a full replacement. Will find a solution when there's a need.
 
